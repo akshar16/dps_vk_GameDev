@@ -1,6 +1,8 @@
 import pygame
 import sys
 import subprocess
+import os
+import platform
 from os.path import join
 
 # Initialize pygame
@@ -23,12 +25,19 @@ class StartScreen:
         self.clock = pygame.time.Clock()
         self.running = True
         
-        # Load fonts
+        # Load fonts with better cross-platform handling
         try:
-            self.title_font = pygame.font.Font(join('fonts', '04B_30__.TTF'), 72)
-            self.menu_font = pygame.font.Font(join('fonts', '04B_30__.TTF'), 48)
-            self.subtitle_font = pygame.font.Font(join('fonts', '04B_30__.TTF'), 32)
-        except:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            font_path = os.path.join(current_dir, 'fonts', '04B_30__.TTF')
+            if os.path.exists(font_path):
+                self.title_font = pygame.font.Font(font_path, 72)
+                self.menu_font = pygame.font.Font(font_path, 48)
+                self.subtitle_font = pygame.font.Font(font_path, 32)
+                print(f"Custom font loaded from: {font_path}")
+            else:
+                raise FileNotFoundError("Custom font not found")
+        except Exception as e:
+            print(f"Could not load custom font: {e}")
             # Fallback to default fonts if custom font not found
             self.title_font = pygame.font.Font(None, 72)
             self.menu_font = pygame.font.Font(None, 48)
@@ -44,13 +53,21 @@ class StartScreen:
         self.selected_option = 0
         self.button_rects = []
         
-        # Load background music if available
+        # Load background music if available with better cross-platform handling
         try:
-            self.menu_music = pygame.mixer.Sound(join('stage 1 ', 'audio', 'music.wav'))
-            self.menu_music.set_volume(0.3)
-            self.menu_music.play(loops=-1)
-        except:
-            pass  # No music file found
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            music_path = os.path.join(current_dir, 'stage 1 ', 'audio', 'music.wav')
+            if os.path.exists(music_path):
+                self.menu_music = pygame.mixer.Sound(music_path)
+                self.menu_music.set_volume(0.3)
+                self.menu_music.play(loops=-1)
+                print(f"Menu music loaded from: {music_path}")
+            else:
+                print(f"Music file not found at: {music_path}")
+                self.menu_music = None
+        except Exception as e:
+            print(f"Could not load menu music: {e}")
+            self.menu_music = None
     
     def handle_events(self):
         for event in pygame.event.get():
@@ -163,15 +180,38 @@ class StartScreen:
         print("Starting Stage 1...")
         pygame.mixer.stop()  # Stop menu music
         try:
-            # Run stage 1 from its code directory
-            subprocess.run([sys.executable, 'main.py'], 
-                         cwd='stage 1 /code')
+            # Get the absolute path to ensure cross-platform compatibility
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            stage1_path = os.path.join(current_dir, 'stage 1 ', 'code')
+            
+            # Normalize path for cross-platform compatibility
+            stage1_path = os.path.normpath(stage1_path)
+            
+            # Verify the path exists
+            if not os.path.exists(stage1_path):
+                print(f"Stage 1 path not found: {stage1_path}")
+                return
+                
+            print(f"Running Stage 1 from: {stage1_path}")
+            
+            # Use appropriate Python executable for the platform
+            python_exe = sys.executable
+            if platform.system() == "Windows" and not python_exe.endswith('.exe'):
+                # On Windows, ensure we have the .exe extension
+                if os.path.exists(python_exe + '.exe'):
+                    python_exe = python_exe + '.exe'
+            
+            subprocess.run([python_exe, 'main.py'], 
+                         cwd=stage1_path, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Stage 1 exited with error code: {e.returncode}")
         except Exception as e:
             print(f"Error starting Stage 1: {e}")
         finally:
             # Return to menu
             try:
-                self.menu_music.play(loops=-1)
+                if self.menu_music:
+                    self.menu_music.play(loops=-1)
             except:
                 pass
     
@@ -180,15 +220,38 @@ class StartScreen:
         print("Starting Stage 2...")
         pygame.mixer.stop()  # Stop menu music
         try:
-            # Run stage 2 from its code directory
-            subprocess.run([sys.executable, 'main.py'], 
-                         cwd=' stage 2/code')
+            # Get the absolute path to ensure cross-platform compatibility
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            stage2_path = os.path.join(current_dir, ' stage 2', 'code')
+            
+            # Normalize path for cross-platform compatibility
+            stage2_path = os.path.normpath(stage2_path)
+            
+            # Verify the path exists
+            if not os.path.exists(stage2_path):
+                print(f"Stage 2 path not found: {stage2_path}")
+                return
+                
+            print(f"Running Stage 2 from: {stage2_path}")
+            
+            # Use appropriate Python executable for the platform
+            python_exe = sys.executable
+            if platform.system() == "Windows" and not python_exe.endswith('.exe'):
+                # On Windows, ensure we have the .exe extension
+                if os.path.exists(python_exe + '.exe'):
+                    python_exe = python_exe + '.exe'
+            
+            subprocess.run([python_exe, 'main.py'], 
+                         cwd=stage2_path, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Stage 2 exited with error code: {e.returncode}")
         except Exception as e:
             print(f"Error starting Stage 2: {e}")
         finally:
             # Return to menu
             try:
-                self.menu_music.play(loops=-1)
+                if self.menu_music:
+                    self.menu_music.play(loops=-1)
             except:
                 pass
     

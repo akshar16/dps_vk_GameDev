@@ -53,8 +53,29 @@ pip install pygame-ce pytmx
 ```
 
 3. Run the game:
-```bash
+
+**Windows:**
+```batch
+run_game.bat
+```
+Or:
+```cmd
 python start_screen.py
+```
+
+**Mac/Linux:**
+```bash
+python3 start_screen.py
+```
+Or:
+```bash
+./run_game.sh
+```
+
+**Cross-platform Python launcher:**
+```bash
+python run_game.py
+```
 ```
 
 ## Game Structure
