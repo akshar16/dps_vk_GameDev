@@ -218,7 +218,6 @@ class TouhouBoss(Enemy):
         
         # Make the boss bigger by scaling the image
         if frames:
-            # Scale the bee frames to make it bigger (2x size)
             self.original_frames = frames
             self.frames = []
             for frame in frames:

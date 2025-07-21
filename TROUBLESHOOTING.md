@@ -79,7 +79,7 @@ sudo apt install pulseaudio alsa-utils
 ### Problem: Game crashes on startup
 **Solutions:**
 1. Check that all files are present in the correct directories
-2. Verify folder names (note the spaces in "stage 1 " and " stage 2")
+2. Verify folder names (note the spaces in "stage 1" and "stage 2")
 3. Run from command line to see error messages
 4. Update pygame-ce to the latest version:
    ```bash
