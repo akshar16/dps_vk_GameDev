@@ -27,7 +27,7 @@ class Game:
         else:
             # Running from parent directory (e.g., from start screen)
             self.base_path = 'stage 2'
-
+        
         # score system
         self.score = 0
         try:
