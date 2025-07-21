@@ -18,16 +18,16 @@ class Game:
         
         # Determine the correct base path for assets
         current_dir = os.getcwd()
-        if current_dir.endswith(' stage 2'):
+        if current_dir.endswith('stage 2'):
             # Running from stage 2 directory
             self.base_path = '.'
-        elif ' stage 2' in current_dir:
+        elif 'stage 2' in current_dir:
             # Running from stage 2/code directory
             self.base_path = '..'
         else:
             # Running from parent directory (e.g., from start screen)
-            self.base_path = ' stage 2'
-        
+            self.base_path = 'stage 2'
+
         # score system
         self.score = 0
         try:

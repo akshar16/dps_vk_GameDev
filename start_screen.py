@@ -56,7 +56,7 @@ class StartScreen:
         # Load background music if available with better cross-platform handling
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            music_path = os.path.join(current_dir, 'stage 1 ', 'audio', 'music.wav')
+            music_path = os.path.join(current_dir, 'stage 1', 'audio', 'music.wav')
             if os.path.exists(music_path):
                 self.menu_music = pygame.mixer.Sound(music_path)
                 self.menu_music.set_volume(0.3)
@@ -182,7 +182,7 @@ class StartScreen:
         try:
             # Get the absolute path to ensure cross-platform compatibility
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            stage1_path = os.path.join(current_dir, 'stage 1 ', 'code')
+            stage1_path = os.path.join(current_dir, 'stage 1', 'code')
             
             # Normalize path for cross-platform compatibility
             stage1_path = os.path.normpath(stage1_path)
@@ -222,7 +222,7 @@ class StartScreen:
         try:
             # Get the absolute path to ensure cross-platform compatibility
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            stage2_path = os.path.join(current_dir, ' stage 2', 'code')
+            stage2_path = os.path.join(current_dir, 'stage 2', 'code')
             
             # Normalize path for cross-platform compatibility
             stage2_path = os.path.normpath(stage2_path)
