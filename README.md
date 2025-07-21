@@ -104,10 +104,47 @@ python run_game.py
 - Blue bullets hurt only when moving, orange bullets hurt only when still
 - Reach 400 points or complete the story for victory
 
+#### Story Mode Features
+- **Story Guide NPC**: A wise character positioned behind the player that introduces meaningful gameplay
+- **Limited enemies**: Only 10 stationary enemies spawn for thoughtful encounters
+- **Undertale-style combat**: ATTACK/TALK/HEAL/SPARE options with bullet hell defense
+- **Philosophical themes**: Focus on choice, compassion, and understanding over violence
+- **Enhanced dialogue system**: Improved UI with proper spacing and character-specific formatting
+- **Multiple endings**: Victory, story completion with deep reflection, or determination failure
+
+#### Survival Mode Features
+- **Combat Instructor NPC**: Positioned to the left of the player for battle training
+- **Endless enemy waves**: Classic survival gameplay with moving enemies
+- **Score-based progression**: Aim for high scores while surviving as long as possible
+- **Traditional combat**: Focus on weapon skills and movement
+
 ### Stage 2
 - Use Shift to see your precise hitbox
 - Focus on dodging rather than shooting constantly
 - Survive as long as possible to achieve high scores
+
+## Technical Features
+
+### Advanced Game Mechanics
+- **Undertale-style combat system** with soul mechanics and bullet patterns
+- **Cross-platform path handling** for Windows and Mac compatibility
+- **Dynamic sprite animation** with frame-based enemy movements
+- **Collision detection** using pygame masks for pixel-perfect accuracy
+- **Audio system** with background music and sound effects
+- **Custom font integration** with fallback options
+
+### End Screen System
+Both stages feature comprehensive end screens with:
+- **Score tracking** and final score display
+- **Multiple ending types** (Victory, Story Completion, Game Over)
+- **Platform-specific controls** (ESC to return, Q to quit)
+- **Philosophical messaging** for story mode completion
+
+### NPC Dialogue System
+- **Interactive NPCs** with character-specific formatting
+- **Enhanced dialogue boxes** with proper spacing and word wrapping
+- **Branching storylines** leading to different game modes
+- **Visual character representation** with scaled sprites
 
 ## Credits
 
