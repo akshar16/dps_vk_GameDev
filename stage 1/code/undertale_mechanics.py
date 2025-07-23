@@ -20,8 +20,6 @@ class UndertaleGame:
         self.battle_phase = "MENU"
         self.menu_selection = 0
         self.menu_options = ["FIGHT", "ACT", "ITEM", "MERCY"]
-        self.attack_timer = 0
-        self.attack_duration = 5000
         self.bullets = []
         self.dialogue_text = ""
         self.dialogue_visible = False

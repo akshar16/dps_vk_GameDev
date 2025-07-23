@@ -142,7 +142,7 @@ class TouhouBee(Enemy):
         self.frequency = randint(200, 400)
         self.bullet_groups = bullet_groups
         self.player = player
-        self.shoot_timer = Timer(1800, autostart=True, repeat=True, func=self.shoot_pattern)
+        self.shoot_timer = Timer(2000, autostart=True, repeat=True, func=self.shoot_pattern)
         self.pattern_type = randint(0, 2)
     
     def shoot_pattern(self):
@@ -182,107 +182,6 @@ class TouhouBee(Enemy):
         if self.rect.right <= 0:
             self.kill()
 
-class TouhouBoss(Enemy):
-    def __init__(self, frames, pos, groups, bullet_groups, player):
-        super().__init__(frames, pos, groups)
-        self.health = 50
-        self.max_health = 50
-        self.bullet_groups = bullet_groups
-        self.player = player
-        self.speed = 60
-        self.direction_y = 1
-        self.name = "QUEEN BEE"
-        if frames:
-            self.original_frames = frames
-            self.frames = []
-            for frame in frames:
-                scaled_frame = pygame.transform.scale(frame, (frame.get_width() * 2, frame.get_height() * 2))
-                self.frames.append(scaled_frame)
-            self.image = self.frames[0]
-            center = self.rect.center
-            self.rect = self.image.get_rect(center=center)
-        self.pattern_timer = Timer(3000, autostart=True, repeat=True, func=self.change_pattern)
-        self.attack_timer = Timer(500, autostart=True, repeat=True, func=self.attack)
-        self.current_pattern = 0
-        self.pattern_phase = 0
-    
-    def change_pattern(self):
-        self.current_pattern = (self.current_pattern + 1) % 4
-        self.pattern_phase = 0
-    
-    def attack(self):
-        if self.current_pattern == 0:
-            self.spiral_pattern()
-        elif self.current_pattern == 1:
-            self.wave_pattern()
-        elif self.current_pattern == 2:
-            self.bullet_hell_pattern()
-        else:
-            self.homing_pattern()
-        self.pattern_phase += 1
-    
-    def spiral_pattern(self):
-        for i in range(3):
-            angle = (self.pattern_phase * 0.1) + (i * 1.57)
-            SpiralBullet(self.rect.center, angle, self.bullet_groups)
-    
-    def wave_pattern(self):
-        for i in range(6):
-            angle = (i / 6) * 6.28 + (self.pattern_phase * 0.2)
-            CircularBullet(self.rect.center, angle, self.bullet_groups, speed=150)
-    
-    def bullet_hell_pattern(self):
-        for i in range(8):
-            angle = (i / 8) * 6.28
-            CircularBullet(self.rect.center, angle, self.bullet_groups, 
-                         speed=120, color=(255, 255, 100))
-        if self.pattern_phase % 3 == 0:
-            for i in range(2):
-                EnemyBullet(self.rect.center, self.player.rect.center, 
-                          self.bullet_groups, speed=200)
-    
-    def homing_pattern(self):
-        if self.pattern_phase % 2 == 0:
-            for _ in range(3):
-                EnemyBullet(self.rect.center, self.player.rect.center, 
-                          self.bullet_groups, speed=160)
-
-    def animate(self, dt):
-        if hasattr(self, 'frames') and self.frames:
-            self.frame_index += self.animation_speed * dt
-            self.image = self.frames[int(self.frame_index) % len(self.frames)]
-
-    def move(self, dt):
-        player_x = self.player.rect.centerx
-        player_y = self.player.rect.centery
-        dx = player_x - self.rect.centerx
-        dy = player_y - self.rect.centery
-        distance = (dx**2 + dy**2)**0.5
-        if distance > 0:
-            if distance > 150:
-                move_x = (dx / distance) * self.speed * dt
-                move_y = (dy / distance) * self.speed * dt
-                self.rect.x += move_x
-                self.rect.y += move_y
-        self.rect.y += sin(pygame.time.get_ticks() / 1000) * 20 * dt
-    
-    def take_damage(self):
-        self.health -= 1
-        if self.health <= 0:
-            self.destroy()
-            return True
-        return False
-    
-    def update(self, dt):
-        super().update(dt)
-        self.pattern_timer.update()
-        self.attack_timer.update()
-    
-    def constraint(self):
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > WINDOW_WIDTH:
-            self.rect.right = WINDOW_WIDTH
 
 class Bee(Enemy):
     def __init__(self, frames, pos, groups, speed):
