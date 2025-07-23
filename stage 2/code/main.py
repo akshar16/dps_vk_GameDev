@@ -50,6 +50,7 @@ class Game:
         self.power = 1
         self.victory = False
         self.invulnerable_timer = Timer(2000)
+        self.freeze_timer = Timer(1000)  # 1.5 second freeze timer
     
     def create_bee(self):
         TouhouBee(frames=self.bee_frames, 
@@ -143,10 +144,18 @@ class Game:
             collision_sprites = pygame.sprite.spritecollide(self.player, self.enemy_sprites, False, pygame.sprite.collide_mask)
             if collision_sprites:
                 self.player_hit()
+        else:
+            # During invulnerability, destroy enemies on contact
+            collision_sprites = pygame.sprite.spritecollide(self.player, self.enemy_sprites, False, pygame.sprite.collide_mask)
+            if collision_sprites:
+                for enemy in collision_sprites:
+                    enemy.destroy()
+                    self.score += 50  # Bonus points for destroying enemies while invulnerable
     
     def player_hit(self):
         self.lives -= 1
         self.invulnerable_timer.activate()
+        self.freeze_timer.activate()  # Activate freeze effect
         self.audio['impact'].play()
         
         if self.lives <= 0:
@@ -241,10 +250,13 @@ class Game:
             if not self.game_over:
                 self.bee_timer.update()
                 self.invulnerable_timer.update()
+                self.freeze_timer.update()
                 
-                self.all_sprites.update(dt)
-                self.enemy_bullet_sprites.update(dt)
-                self.collision()
+                # Only update game logic if not frozen
+                if not self.freeze_timer:
+                    self.all_sprites.update(dt)
+                    self.enemy_bullet_sprites.update(dt)
+                    self.collision()
 
                 self.display_surface.fill(BG_COLOR)
                 self.all_sprites.draw(self.player.rect.center)
@@ -253,6 +265,13 @@ class Game:
                     self.display_surface.blit(bullet.image, bullet.rect)
                 
                 self.draw_score()
+                
+                # Add freeze effect overlay
+                if self.freeze_timer:
+                    freeze_overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+                    freeze_overlay.set_alpha(30)
+                    freeze_overlay.fill((150, 200, 255))  # Light blue freeze effect
+                    self.display_surface.blit(freeze_overlay, (0, 0))
                 
                 if self.invulnerable_timer and pygame.time.get_ticks() % 200 < 100:
                     overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))

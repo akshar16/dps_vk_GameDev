@@ -6,6 +6,7 @@ from group import AllSprites
 from random import randint, choice
 from undertale_mechanics import *
 from npc_system import *
+from timer import Timer
 import sys
 import os
 
@@ -74,6 +75,7 @@ class Game:
             self.title_font = pygame.font.Font(None, 48)
             print("Using default fonts as fallback")
         self.game_over = False
+        self.freeze_timer = Timer(1000)  # 1 second freeze timer
         
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 300)
@@ -230,6 +232,7 @@ class Game:
                         
                         if should_damage and self.soul.take_damage():
                             self.player_hp -= 1
+                            self.freeze_timer.activate()  # Activate freeze effect
                             if self.player_hp <= 0:
                                 self.game_over = True
                                 self.undertale_defeat = True
@@ -358,6 +361,7 @@ class Game:
                 elif self.soul and bullet.get_rect().colliderect(self.soul.get_rect()):
                     if self.soul.take_damage():
                         self.player_hp -= 1
+                        self.freeze_timer.activate()  # Activate freeze effect
                         if self.player_hp <= 0:
                             self.end_battle(victory=False)
                             return
@@ -479,23 +483,33 @@ class Game:
                             self.story_enemies_spawned += 1
 
             if not self.game_over:
+                # Update freeze timer
+                self.freeze_timer.update()
+                
                 if self.game_mode == "INTRO":
-                    self.all_sprites.update(dt)
-                    for npc in self.npc_sprites:
-                        npc.update(dt)
+                    # Only update if not frozen
+                    if not self.freeze_timer:
+                        self.all_sprites.update(dt)
+                        for npc in self.npc_sprites:
+                            npc.update(dt)
                 elif self.game_mode in ["EXPLORATION", "SURVIVAL_ONLY"]:
                     self.gun_timer()
-                    self.input()
-                    self.all_sprites.update(dt)
-                    self.bullet_collision()
-                    if self.story_mode and self.game_mode == "EXPLORATION":
-                        self.player_collision()
-                    else:
-                        if pygame.sprite.spritecollide(self.player, self.enemy_sprites, False, pygame.sprite.collide_mask):
-                            self.game_over = True
+                    # Only update game logic if not frozen
+                    if not self.freeze_timer:
+                        self.input()
+                        self.all_sprites.update(dt)
+                        self.bullet_collision()
+                        if self.story_mode and self.game_mode == "EXPLORATION":
+                            self.player_collision()
+                        else:
+                            if pygame.sprite.spritecollide(self.player, self.enemy_sprites, False, pygame.sprite.collide_mask):
+                                self.freeze_timer.activate()  # Activate freeze on collision
+                                self.game_over = True
                 elif self.game_mode == "UNDERTALE_BATTLE":
-                    self.update_undertale_battle(dt)
-                    self.player_collision()
+                    # Only update battle if not frozen
+                    if not self.freeze_timer:
+                        self.update_undertale_battle(dt)
+                        self.player_collision()
             
             if self.game_mode in ["INTRO", "EXPLORATION", "SURVIVAL_ONLY"]:
                 self.screen.fill(('black'))
@@ -605,6 +619,13 @@ class Game:
                     
             elif self.game_mode == "UNDERTALE_BATTLE":
                 self.draw_undertale_battle()
+            
+            # Add freeze effect overlay
+            if self.freeze_timer:
+                freeze_overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+                freeze_overlay.set_alpha(30)
+                freeze_overlay.fill((150, 200, 255))  # Light blue freeze effect
+                self.screen.blit(freeze_overlay, (0, 0))
             
             pygame.display.update()
 
