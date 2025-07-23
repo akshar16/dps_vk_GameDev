@@ -1,201 +1,237 @@
-# Two-Stage Adventure Game
+# DPS Saket Game - Two-Stage Adventure
 
-A Python game featuring two distinct gameplay experiences:
-- **Stage 1**: Undertale-inspired mechanics with story mode and survival mode
-- **Stage 2**: Touhou-style bullet hell action
+A Python-based two-stage adventure game featuring distinct gameplay experiences inspired by classic indie games. Built with pygame-ce and featuring custom pixel art, immersive audio, and engaging mechanics.
 
-## Features
+## 🎮 Game Overview
 
 ### Stage 1: Undertale-Style Adventure
-- **Story Mode**: Interactive NPCs, turn-based battles with ATTACK/TALK/HEAL/SPARE options
-- **Survival Mode**: Classic survival gameplay with endless enemy waves
-- **Undertale Battle System**: Soul mechanics with blue/orange bullet patterns
-- **Multiple Endings**: Victory, story completion, and defeat screens
+- **Story Mode**: Interactive NPCs with meaningful dialogue and choice-based gameplay
+- **Survival Mode**: Classic survival mechanics with endless enemy waves  
+- **Turn-based Combat**: ATTACK/TALK/HEAL/SPARE options with bullet hell defense phases
+- **Soul Mechanics**: Blue/orange bullet patterns requiring strategic movement
+- **Multiple Endings**: Victory, story completion, and philosophical reflection paths
 
-### Stage 2: Touhou Bullet Hell
-- Fast-paced bullet hell gameplay
-- Enemy waves with varying patterns
-- Score-based progression
-- Lives system with end screens
+### Stage 2: Touhou-Style Bullet Hell
+- **Intense Bullet Hell Action**: Fast-paced dodging with precise hitbox mechanics
+- **Dynamic Enemy Spawning**: Bees and worms with unique attack patterns
+- **Score-Based Progression**: High score tracking with performance metrics
+- **Lives System**: Heart-based health with invulnerability frames
+- **Visual Effects**: Freeze effects, damage indicators, and particle systems
 
-## Controls
+## 🎯 Controls
 
-### General
-- **Arrow Keys/WASD**: Move player
-- **Mouse**: Aim and shoot (Stage 1)
-- **Shift**: Show hitbox (Stage 2)
-- **Space**: Interact with NPCs, confirm menu selections
-- **ESC**: Return to menu (on game over screens)
-- **Q**: Quit game (on game over screens)
+### Universal Controls
+- **Arrow Keys/WASD**: Move player character
+- **ESC**: Return to main menu (from game over screens)
+- **Q**: Quit game (from game over screens)
 
-### Undertale Battles (Stage 1)
-- **Arrow Keys/WASD**: Navigate menus and move soul
-- **Space/Enter**: Confirm selection
-- **Left/Right**: Select battle options (ATTACK, TALK, HEAL, SPARE)
+### Stage 1 Specific
+- **Mouse**: Aim and shoot weapons
+- **Space**: Interact with NPCs and confirm menu selections
+- **Arrow Keys**: Navigate battle menus and move soul during bullet hell phases
+- **Enter/Space**: Confirm battle selections (ATTACK/TALK/HEAL/SPARE)
 
-## Requirements
+### Stage 2 Specific  
+- **Left Shift**: Display precise hitbox (small white circle)
+- **Mouse**: Aim and shoot at enemies
+- **Movement**: Precise dodging for bullet patterns
 
-- Python 3.x
-- pygame-ce 2.5.5
-- pytmx
+## 📋 System Requirements
 
-## Installation
+- **Python**: 3.7+ (tested with 3.13)
+- **pygame-ce**: 2.5.0 or higher
+- **pytmx**: 3.21.7 or higher (for tilemap support)
+- **Platform**: Windows, macOS, Linux compatible
+- **Audio**: Sound card for music and effects
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/two-stage-adventure-game.git
-cd two-stage-adventure-game
-```
+## 🚀 Installation & Setup
 
-2. Install dependencies:
-```bash
-pip install pygame-ce pytmx
-```
-
-3. Run the game:
-
-**Windows:**
-```batch
-run_game.bat
-```
-Or:
-```cmd
-python start_screen.py
-```
-
-**Mac/Linux:**
-```bash
-python3 start_screen.py
-```
-Or:
-```bash
-./run_game.sh
-```
-
-**Cross-platform Python launcher:**
-```bash
-python run_game.py
-```
-```
-
-## Game Structure
-
-```
-├── start_screen.py          # Main menu and stage launcher
-├── fonts/                   # Custom fonts
-│   └── 04B_30__.TTF
-├── stage 1/                 # Undertale-style stage
-│   ├── code/               # Game logic
-│   ├── audio/              # Sound effects and music
-│   ├── data/               # Maps and tilesets
-│   └── images/             # Sprites and graphics
-└── stage 2/                # Touhou-style stage
-    ├── code/               # Game logic
-    ├── audio/              # Sound effects and music
-    ├── data/               # Maps and tilesets
-    └── images/             # Sprites and graphics
-```
-
-## Gameplay Tips
-
-### Stage 1
-- Talk to NPCs to choose between Story Mode and Survival Mode
-- In Story Mode, try using SPARE after talking to enemies
-- Blue bullets hurt only when moving, orange bullets hurt only when still
-- Reach 400 points or complete the story for victory
-
-#### Story Mode Features
-- **Story Guide NPC**: A wise character positioned behind the player that introduces meaningful gameplay
-- **Limited enemies**: Only 10 stationary enemies spawn for thoughtful encounters
-- **Undertale-style combat**: ATTACK/TALK/HEAL/SPARE options with bullet hell defense
-- **Philosophical themes**: Focus on choice, compassion, and understanding over violence
-- **Enhanced dialogue system**: Improved UI with proper spacing and character-specific formatting
-- **Multiple endings**: Victory, story completion with deep reflection, or determination failure
-
-#### Survival Mode Features
-- **Combat Instructor NPC**: Positioned to the left of the player for battle training
-- **Endless enemy waves**: Classic survival gameplay with moving enemies
-- **Score-based progression**: Aim for high scores while surviving as long as possible
-- **Traditional combat**: Focus on weapon skills and movement
-
-### Stage 2
-- Use Shift to see your precise hitbox
-- Focus on dodging rather than shooting constantly
-- Survive as long as possible to achieve high scores
-
-## Technical Features
-
-### Advanced Game Mechanics
-- **Undertale-style combat system** with soul mechanics and bullet patterns
-- **Cross-platform path handling** for Windows and Mac compatibility
-- **Dynamic sprite animation** with frame-based enemy movements
-- **Collision detection** using pygame masks for pixel-perfect accuracy
-- **Audio system** with background music and sound effects
-- **Custom font integration** with fallback options
-
-### End Screen System
-Both stages feature comprehensive end screens with:
-- **Score tracking** and final score display
-- **Multiple ending types** (Victory, Story Completion, Game Over)
-- **Platform-specific controls** (ESC to return, Q to quit)
-- **Philosophical messaging** for story mode completion
-
-### NPC Dialogue System
-- **Interactive NPCs** with character-specific formatting
-- **Enhanced dialogue boxes** with proper spacing and word wrapping
-- **Branching storylines** leading to different game modes
-- **Visual character representation** with scaled sprites
-
-## Credits
-
-Built with Python and pygame-ce. Features inspired by Undertale and Touhou series.
-
-## License
-
-This project is open source and available under the MIT License.
-- **Smooth Controls**: Responsive player movement and shooting
-
-## Requirements
-
-- Python 3.6+
-- Pygame
-- pytmx (for tilemap loading)
-
-## Installation
-
-1. Make sure you have Python installed
-2. Install required packages:
+### Quick Start
+1. **Clone the repository:**
    ```bash
-   pip install pygame pytmx
+   git clone https://github.com/akshar16/dps_saket.git
+   cd dps_saket
    ```
-3. Run the game:
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   Or manually install:
+   ```bash
+   pip install pygame-ce>=2.5.0 pytmx>=3.21.7
+   ```
+
+3. **Run the game:**
+   ```bash
+   python main.py
+   ```
+   Or directly:
    ```bash
    python start_screen.py
    ```
 
-## File Structure
+### Alternative Execution (Windows)
+- Double-click `DPS_rohini.exe` for direct execution (Windows only)
+
+## 📁 Project Structure
 
 ```
-├── start_screen.py      # Main menu/start screen
-├── run_game.py         # Game launcher
-├── stage 1/            # First game stage
-│   ├── code/           # Stage 1 game code
+dps_saket/
+├── main.py                 # Game launcher with error handling
+├── start_screen.py         # Main menu and stage selection
+├── requirements.txt        # Python dependencies
+├── DPS_rohini.exe         # Windows executable
+├── TROUBLESHOOTING.md     # Common issues and solutions
+├── fonts/                 # Custom game fonts
+│   └── 04B_30__.TTF      # Pixel-style font
+├── hearts/               # UI elements
+│   ├── full_heart.png    # Life indicator (full)
+│   └── empety_heart.png  # Life indicator (empty)
+├── stage 1/              # Undertale-style gameplay
+│   ├── code/            # Game logic and mechanics
+│   │   ├── main.py      # Stage 1 entry point
+│   │   ├── player.py    # Player character controller
+│   │   ├── sprites.py   # Game object classes
+│   │   ├── settings.py  # Configuration constants
+│   │   └── ...         # Additional game modules
 │   ├── audio/          # Sound effects and music
-│   ├── images/         # Sprites and graphics
-│   └── data/           # Maps and tilesets
-├── stage 2/            # Second game stage
-│   ├── code/           # Stage 2 game code
-│   ├── audio/          # Sound effects and music
-│   ├── images/         # Sprites and graphics
-│   └── data/           # Maps and tilesets
-└── fonts/              # Game fonts
+│   ├── data/           # Tilemap and level data
+│   └── images/         # Sprites and graphics
+└── stage 2/             # Touhou-style bullet hell
+    ├── code/           # Game logic and mechanics
+    │   ├── main.py     # Stage 2 entry point
+    │   ├── sprites.py  # Enemy and bullet classes
+    │   ├── support.py  # Asset loading utilities
+    │   ├── groups.py   # Sprite group management
+    │   └── ...        # Additional game modules
+    ├── audio/         # Sound effects and music
+    ├── data/          # Tilemap and level data
+    └── images/        # Sprites and graphics
 ```
 
-## Troubleshooting
+## 🎯 Gameplay Guide
 
-- If you get import errors, make sure all required packages are installed
-- If fonts don't load properly, the game will fall back to default system fonts
-- If audio doesn't work, check that your audio files are present in the audio folders
-- Make sure you're running the game from the main directory containing start_screen.py
+### Stage 1: Undertale Adventure
+**Getting Started:**
+- Choose between Story Mode (narrative-focused) or Survival Mode (action-focused)
+- Interact with NPCs using Space to learn about game modes
+- Story Guide NPC (behind player) introduces philosophical gameplay
+- Combat Instructor NPC (left of player) teaches survival mechanics
 
-Enjoy the game!
+**Combat System:**
+- **ATTACK**: Deal damage to enemies with weapons
+- **TALK**: Communicate with enemies, potentially leading to peaceful resolution
+- **HEAL**: Restore health when needed
+- **SPARE**: Show mercy to enemies after successful dialogue
+- **Soul Movement**: During enemy attacks, control a small soul to dodge bullet patterns
+- **Blue Bullets**: Only hurt when you're moving - stay still to avoid
+- **Orange Bullets**: Only hurt when you're stationary - keep moving to avoid
+
+**Victory Conditions:**
+- **Story Mode**: Complete meaningful encounters and choose compassionate paths
+- **Survival Mode**: Reach 400 points by defeating enemies
+- **Multiple Endings**: Victory, philosophical completion, or determination failure
+
+### Stage 2: Bullet Hell Action
+**Core Mechanics:**
+- **Precision Movement**: Use WASD/Arrow keys for exact positioning
+- **Hitbox Awareness**: Hold Shift to see your tiny collision area (white circle)
+- **Enemy Patterns**: Bees fly in straight lines shooting bullet spreads
+- **Worms**: Ground-based enemies with different attack patterns
+- **Scoring**: Earn points by destroying enemies, bonus points during invulnerability
+
+**Survival Tips:**
+- **Focus on dodging** rather than constant shooting
+- **Use invulnerability frames** after taking damage to destroy enemies safely
+- **Watch for freeze effects** - brief pause after taking damage
+- **Track your lives** with the heart display in the top-right corner
+- **Aim for high scores** - challenge yourself and others!
+
+## 🔧 Technical Features
+
+### Advanced Game Systems
+- **Cross-platform compatibility** with automatic path resolution
+- **Custom asset loading** system with fallback options
+- **Pixel-perfect collision detection** using pygame masks
+- **Dynamic sprite animation** with frame-based systems
+- **Integrated audio management** with volume control
+- **Sophisticated timer systems** for game events and effects
+
+### Visual & Audio Polish
+- **Custom pixel art** sprites and animations
+- **Retro-style fonts** with modern fallback support
+- **Immersive sound design** including shooting, impacts, and ambient music
+- **Visual feedback systems** including damage flashes, freeze effects, and hitbox display
+- **Smooth particle effects** and visual polish
+
+### User Experience
+- **Comprehensive end screens** with performance statistics
+- **Intuitive menu navigation** with keyboard and mouse support
+- **Clear visual indicators** for health, score, and game state
+- **Responsive controls** with consistent input handling
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Import Errors:**
+- Ensure all dependencies are installed: `pip install -r requirements.txt`
+- Verify Python version is 3.7 or higher: `python --version`
+
+**Font Loading Issues:**
+- Game automatically falls back to system fonts if custom font fails
+- Ensure `fonts/04B_30__.TTF` exists in the project directory
+
+**Audio Problems:**
+- Check that audio files exist in respective `stage X/audio/` directories
+- Verify system audio is working and unmuted
+- Audio will be muted if files are missing (no crash)
+
+**Performance Issues:**
+- Close other applications to free up system resources
+- Ensure graphics drivers are updated
+- Game is optimized for 60 FPS at 1280x720 resolution
+
+**Game Won't Start:**
+- Run from the main directory containing `main.py` or `start_screen.py`
+- Check console output for specific error messages
+- Verify all required files are present (see project structure above)
+
+For additional help, check `TROUBLESHOOTING.md` in the project root.
+
+## 🎮 Development & Credits
+
+**Technical Stack:**
+- **Python 3.7+** for cross-platform compatibility
+- **pygame-ce** for graphics, audio, and input handling
+- **pytmx** for tilemap loading and level design
+- **Custom asset pipeline** for efficient resource management
+
+**Game Design Inspiration:**
+- **Undertale** by Toby Fox (Stage 1 mechanics and philosophy)
+- **Touhou Project** series by ZUN (Stage 2 bullet hell mechanics)
+- Classic arcade games for scoring and progression systems
+
+**Development Notes:**
+- Built as part of the DPS Saket educational project
+- Emphasizes game design principles and programming best practices
+- Modular architecture allows for easy expansion and modification
+
+## 📄 License
+
+This project is open source and available under the MIT License. Feel free to explore, learn, and build upon this codebase.
+
+## 🚀 Future Enhancements
+
+Potential areas for expansion:
+- **Additional Stages**: More diverse gameplay experiences
+- **Boss Battles**: Epic encounters with unique mechanics  
+- **Achievement System**: Goals and unlockables for replayability
+- **Save System**: Progress persistence and high score tracking
+- **Level Editor**: Community-driven content creation
+- **Multiplayer**: Cooperative or competitive modes
+
+---
+
+**Ready to embark on your two-stage adventure? Start your journey today! 🎮✨**
