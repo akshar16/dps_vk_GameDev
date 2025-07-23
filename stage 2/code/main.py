@@ -51,6 +51,7 @@ class Game:
         self.victory = False
         self.invulnerable_timer = Timer(2000)
         self.freeze_timer = Timer(1000)  # 1.5 second freeze timer
+        self.pending_game_over = False  # Track if game over should happen after freeze
     
     def create_bee(self):
         TouhouBee(frames=self.bee_frames, 
@@ -159,7 +160,7 @@ class Game:
         self.audio['impact'].play()
         
         if self.lives <= 0:
-            self.game_over = True
+            self.pending_game_over = True  # Mark for game over after freeze
 
     def draw_score(self):
         score_text = self.font.render(f"Score: {self.score}", True, 'white')
@@ -251,6 +252,11 @@ class Game:
                 self.bee_timer.update()
                 self.invulnerable_timer.update()
                 self.freeze_timer.update()
+                
+                # Check if game over should happen after freeze ends
+                if self.pending_game_over and not self.freeze_timer:
+                    self.game_over = True
+                    self.pending_game_over = False
                 
                 # Only update game logic if not frozen
                 if not self.freeze_timer:

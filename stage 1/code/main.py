@@ -76,6 +76,7 @@ class Game:
             print("Using default fonts as fallback")
         self.game_over = False
         self.freeze_timer = Timer(1000)  # 1 second freeze timer
+        self.pending_game_over = False  # Track if game over should happen after freeze
         
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 300)
@@ -234,7 +235,7 @@ class Game:
                             self.player_hp -= 1
                             self.freeze_timer.activate()  # Activate freeze effect
                             if self.player_hp <= 0:
-                                self.game_over = True
+                                self.pending_game_over = True  # Mark for game over after freeze
                                 self.undertale_defeat = True
                                 self.game_mode = "EXPLORATION"
                         bullet.alive = False
@@ -363,7 +364,7 @@ class Game:
                         self.player_hp -= 1
                         self.freeze_timer.activate()  # Activate freeze effect
                         if self.player_hp <= 0:
-                            self.end_battle(victory=False)
+                            self.pending_game_over = True  # Mark for game over after freeze
                             return
             
             if pygame.time.get_ticks() - self.attack_timer > self.attack_duration:
@@ -486,6 +487,11 @@ class Game:
                 # Update freeze timer
                 self.freeze_timer.update()
                 
+                # Check if game over should happen after freeze ends
+                if self.pending_game_over and not self.freeze_timer:
+                    self.game_over = True
+                    self.pending_game_over = False
+                
                 if self.game_mode == "INTRO":
                     # Only update if not frozen
                     if not self.freeze_timer:
@@ -504,7 +510,7 @@ class Game:
                         else:
                             if pygame.sprite.spritecollide(self.player, self.enemy_sprites, False, pygame.sprite.collide_mask):
                                 self.freeze_timer.activate()  # Activate freeze on collision
-                                self.game_over = True
+                                self.pending_game_over = True  # Mark for game over after freeze
                 elif self.game_mode == "UNDERTALE_BATTLE":
                     # Only update battle if not frozen
                     if not self.freeze_timer:
