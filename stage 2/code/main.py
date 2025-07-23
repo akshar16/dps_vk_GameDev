@@ -236,18 +236,16 @@ class Game:
     def run(self):
         while self.running:
             dt = self.clock.tick(FRAMERATE) / 1000 
-
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False 
                 elif event.type == pygame.KEYDOWN:
-                    if self.game_over:
-                        if event.key == pygame.K_ESCAPE:
-                            self.running = False
-                        elif event.key == pygame.K_q:
-                            pygame.quit()
-                            sys.exit()
-            
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False
+                    elif event.key == pygame.K_q:
+                        self.running = False
+                        
             if not self.game_over:
                 self.bee_timer.update()
                 self.invulnerable_timer.update()
