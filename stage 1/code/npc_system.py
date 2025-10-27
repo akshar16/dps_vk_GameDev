@@ -169,16 +169,11 @@ class NPCDialogue:
             self.end_dialogue()
             
     def end_dialogue(self):
-        """End dialogue and trigger NPC action"""
+        """End dialogue and trigger NPC action (story mode removed)"""
         if self.current_npc:
-            if self.current_npc.npc_type in ["survival", "bee"]:
-                # Start original survival game mode
-                self.game.game_mode = "SURVIVAL_ONLY"
-                self.game.story_mode = False
-            elif self.current_npc.npc_type in ["story", "dog"]:
-                # Start story mode with Undertale mechanics
-                self.game.game_mode = "EXPLORATION"
-                self.game.story_mode = True
+            # Always start survival-only mode; story mode disabled
+            self.game.game_mode = "SURVIVAL_ONLY"
+            self.game.story_mode = False
                 
         self.active = False
         self.current_npc = None

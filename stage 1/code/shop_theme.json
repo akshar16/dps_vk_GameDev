@@ -1,0 +1,147 @@
+{
+    "#shop_window": {
+        "colours": {
+            "dark_bg": "#0a0e27",
+            "normal_border": "#ffd700",
+            "filled_bar": "#ffd700",
+            "unfilled_bar": "#1a1a3e"
+        },
+        "misc": {
+            "border_width": "5",
+            "shadow_width": "25"
+        }
+    },
+    "#title_label": {
+        "colours": {
+            "normal_text": "#ffd700",
+            "dark_bg": "#1a2332"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "32",
+            "bold": "0"
+        },
+        "misc": {
+            "text_horiz_alignment": "center",
+            "text_vert_alignment": "center",
+            "border_width": "3",
+            "border_radius": "8"
+        }
+    },
+    "#coins_label": {
+        "colours": {
+            "normal_text": "#ffed4e",
+            "dark_bg": "#16213e"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "28",
+            "bold": "0"
+        },
+        "misc": {
+            "text_horiz_alignment": "center",
+            "text_vert_alignment": "center",
+            "border_width": "3",
+            "border_radius": "12"
+        }
+    },
+    "#divider": {
+        "colours": {
+            "dark_bg": "#ffd700"
+        }
+    },
+    "button": {
+        "colours": {
+            "normal_bg": "#1a2744",
+            "hovered_bg": "#2a3754",
+            "selected_bg": "#2a3754",
+            "active_bg": "#3a4764",
+            "normal_text": "#e8e8e8",
+            "hovered_text": "#ffffff",
+            "selected_text": "#ffffff",
+            "active_text": "#ffffff",
+            "normal_border": "#4ecdc4",
+            "hovered_border": "#ffd700",
+            "selected_border": "#ffd700",
+            "active_border": "#ffd700"
+        },
+        "misc": {
+            "border_width": "3",
+            "border_radius": "12"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "18",
+            "bold": "0"
+        }
+    },
+    "#item_0,#item_1,#item_2,#item_3": {
+        "colours": {
+            "normal_bg": "#16a085",
+            "hovered_bg": "#1abc9c",
+            "selected_bg": "#1abc9c",
+            "active_bg": "#27ae60",
+            "normal_border": "#2ecc71",
+            "hovered_border": "#f39c12",
+            "selected_border": "#f39c12",
+            "normal_text": "#ffffff",
+            "hovered_text": "#ffff00",
+            "selected_text": "#ffff00"
+        },
+        "misc": {
+            "border_width": "5",
+            "border_radius": "18"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "20",
+            "bold": "0"
+        }
+    },
+    "#item_0_disabled,#item_1_disabled,#item_2_disabled,#item_3_disabled": {
+        "colours": {
+            "normal_bg": "#4a2525",
+            "hovered_bg": "#5a2a2a",
+            "selected_bg": "#5a2a2a",
+            "active_bg": "#6a3030",
+            "normal_border": "#8b4545",
+            "hovered_border": "#9b5555",
+            "selected_border": "#9b5555",
+            "normal_text": "#999999",
+            "hovered_text": "#aaaaaa",
+            "selected_text": "#aaaaaa"
+        },
+        "misc": {
+            "border_width": "5",
+            "border_radius": "18"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "20",
+            "bold": "0"
+        }
+    },
+    "#close_button": {
+        "colours": {
+            "normal_bg": "#c0392b",
+            "hovered_bg": "#e74c3c",
+            "selected_bg": "#e74c3c",
+            "active_bg": "#ff6b5b",
+            "normal_text": "#ffffff",
+            "hovered_text": "#ffff00",
+            "selected_text": "#ffff00",
+            "normal_border": "#e74c3c",
+            "hovered_border": "#ffd700",
+            "selected_border": "#ffd700"
+        },
+        "misc": {
+            "border_width": "4",
+            "border_radius": "12"
+        },
+        "font": {
+            "name": "04B_30__",
+            "size": "22",
+            "bold": "0"
+        }
+    }
+}

@@ -5,6 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, base_path='.'):
         super().__init__(groups)
         self.base_path = base_path
+        self.game = None  # Reference to game for theme mechanics
         self.frames()
         self.state, self.frame_index = 'down', 0
         self.image = pygame.image.load(os.path.join(self.base_path, 'images', 'player','down','0.png')).convert_alpha()
@@ -14,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.Vector2()
         self.speed = 500
         self.collision_sprites = collision_sprites
+        self.boundary_rect = None  # Set by game after setup
 
     def frames(self):
         self.frames = {'left':[], 'right':[], 'up':[], 'down':[]}
@@ -47,6 +49,17 @@ class Player(pygame.sprite.Sprite):
         self.collision("vertical")
         self.hitbox.x += self.direction.x * dt * self.speed
         self.collision("horizontal")
+        
+        # Constrain to boundary
+        if self.boundary_rect:
+            if self.hitbox.left < self.boundary_rect.left:
+                self.hitbox.left = self.boundary_rect.left
+            if self.hitbox.right > self.boundary_rect.right:
+                self.hitbox.right = self.boundary_rect.right
+            if self.hitbox.top < self.boundary_rect.top:
+                self.hitbox.top = self.boundary_rect.top
+            if self.hitbox.bottom > self.boundary_rect.bottom:
+                self.hitbox.bottom = self.boundary_rect.bottom
 
         self.rect.center = self.hitbox.center
     def update(self, dt):

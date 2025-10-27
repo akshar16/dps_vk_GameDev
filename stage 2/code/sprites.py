@@ -1,6 +1,7 @@
 from settings import * 
 from timer import Timer
-from math import sin, cos, atan2, sqrt
+from math import sin
+import math
 from random import randint, uniform
 import pygame
 
@@ -20,64 +21,7 @@ class Bullet(Sprite):
     def update(self, dt):
         self.rect.x += self.direction * self.speed * dt
 
-class EnemyBullet(Sprite):
-    def __init__(self, pos, target_pos, groups, speed=250, color=(255, 100, 100)):
-        surf = pygame.Surface((20, 20))
-        surf.fill(color)
-        pygame.draw.circle(surf, (255, 255, 255), (10, 10), 6)
-        super().__init__(pos, surf, groups)
-        dx = target_pos[0] - pos[0]
-        dy = target_pos[1] - pos[1]
-        distance = sqrt(dx*dx + dy*dy)
-        if distance > 0:
-            self.velocity_x = (dx / distance) * speed
-            self.velocity_y = (dy / distance) * speed
-        else:
-            self.velocity_x = 0
-            self.velocity_y = speed
-    
-    def update(self, dt):
-        self.rect.x += self.velocity_x * dt
-        self.rect.y += self.velocity_y * dt
-        if (self.rect.right < 0 or self.rect.left > WINDOW_WIDTH or 
-            self.rect.bottom < 0 or self.rect.top > WINDOW_HEIGHT):
-            self.kill()
-
-class CircularBullet(Sprite):
-    def __init__(self, pos, angle, groups, speed=180, color=(255, 150, 50)):
-        surf = pygame.Surface((18, 18))
-        surf.fill(color)
-        pygame.draw.circle(surf, (200, 100, 0), (9, 9), 5)
-        super().__init__(pos, surf, groups)
-        self.velocity_x = cos(angle) * speed
-        self.velocity_y = sin(angle) * speed
-    
-    def update(self, dt):
-        self.rect.x += self.velocity_x * dt
-        self.rect.y += self.velocity_y * dt
-        if (self.rect.right < 0 or self.rect.left > WINDOW_WIDTH or 
-            self.rect.bottom < 0 or self.rect.top > WINDOW_HEIGHT):
-            self.kill()
-
-class SpiralBullet(Sprite):
-    def __init__(self, pos, angle, groups, speed=120, spiral_speed=0.03):
-        surf = pygame.Surface((16, 16))
-        surf.fill((100, 255, 100))
-        pygame.draw.circle(surf, (255, 255, 255), (8, 8), 4)
-        super().__init__(pos, surf, groups)
-        self.angle = angle
-        self.speed = speed
-        self.spiral_speed = spiral_speed
-        self.time = 0
-    
-    def update(self, dt):
-        self.time += dt
-        self.angle += self.spiral_speed
-        self.rect.x += cos(self.angle) * self.speed * dt
-        self.rect.y += sin(self.angle) * self.speed * dt
-        if (self.rect.right < 0 or self.rect.left > WINDOW_WIDTH or 
-            self.rect.bottom < 0 or self.rect.top > WINDOW_HEIGHT):
-            self.kill()
+# Enemy bullet classes removed per design request.
 
 class Fire(Sprite):
     def __init__(self, surf, pos, groups, player):
@@ -115,60 +59,62 @@ class Enemy(AnimatedSprite):
         super().__init__(frames, pos, groups)
         self.death_timer = Timer(200, func = self.kill)
         self.health = 1
+        self.alpha = 255  # For invisibility system
+        self.original_image = None  # Store original for alpha changes
+        self.dying = False
+        self.death_start = 0
+        self.death_duration = 300  # ms fade-out
 
+    def set_alpha(self, alpha):
+        """Set transparency level (0-255)"""
+        self.alpha = alpha
+    
     def destroy(self):
-        self.death_timer.activate()
-        self.animation_speed = 0
-        self.image = pygame.mask.from_surface(self.image).to_surface()
-        self.image.set_colorkey('black')
+        # Start a fade-out instead of white mask
+        if not self.dying:
+            self.dying = True
+            self.death_start = pygame.time.get_ticks()
+            self.animation_speed = 0
 
     def take_damage(self):
         self.health -= 1
         if self.health <= 0:
             self.destroy()
 
+    def animate(self, dt):
+        """Override to apply alpha after animation and handle fade-out"""
+        self.frame_index += self.animation_speed * dt
+        base_image = self.frames[int(self.frame_index) % len(self.frames)]
+        
+        # Apply alpha transparency
+        img = base_image.copy()
+        img.set_alpha(self.alpha)
+        self.image = img
+
     def update(self, dt):
+        # Handle fade-out when dying
+        if self.dying:
+            elapsed = pygame.time.get_ticks() - self.death_start
+            progress = min(1.0, elapsed / self.death_duration)
+            self.alpha = int(255 * (1 - progress))
+            if progress >= 1.0:
+                self.kill()
+                return
+        
         self.death_timer.update()
-        if not self.death_timer:
+        if not self.death_timer and not self.dying:
             self.move(dt)
-            self.animate(dt)
+        self.animate(dt)
         self.constraint()
 
 class TouhouBee(Enemy):
-    def __init__(self, frames, pos, groups, speed, bullet_groups, player):
+    def __init__(self, frames, pos, groups, speed, player):
         super().__init__(frames, pos, groups)
         self.speed = speed
         self.amplitude = randint(300, 400)
         self.frequency = randint(200, 400)
-        self.bullet_groups = bullet_groups
         self.player = player
-        self.shoot_timer = Timer(2000, autostart=True, repeat=True, func=self.shoot_pattern)
-        self.pattern_type = randint(0, 2)
-    
-    def shoot_pattern(self):
-        if self.pattern_type == 0:
-            self.aimed_shot()
-        elif self.pattern_type == 1:
-            self.circular_pattern()
-        else:
-            self.triple_shot()
-    
-    def aimed_shot(self):
-        EnemyBullet(self.rect.center, self.player.rect.center, self.bullet_groups)
-    
-    def circular_pattern(self):
-        for i in range(5):
-            angle = (i / 5) * 6.28
-            CircularBullet(self.rect.center, angle, self.bullet_groups)
-    
-    def triple_shot(self):
-        player_angle = atan2(self.player.rect.centery - self.rect.centery, 
-                           self.player.rect.centerx - self.rect.centerx)
-        for offset in [-0.3, 0, 0.3]:
-            EnemyBullet(self.rect.center, 
-                       (self.rect.centerx + cos(player_angle + offset) * 100,
-                        self.rect.centery + sin(player_angle + offset) * 100), 
-                       self.bullet_groups)
+        # Shooting removed
 
     def move(self, dt):
         self.rect.x -= self.speed * dt
@@ -176,7 +122,6 @@ class TouhouBee(Enemy):
     
     def update(self, dt):
         super().update(dt)
-        self.shoot_timer.update()
     
     def constraint(self):
         if self.rect.right <= 0:
@@ -213,6 +158,94 @@ class Worm(Enemy):
         if not self.main_rect.contains(self.rect):
             self.direction *= -1
             self.frames = [pygame.transform.flip(surf, True, False) for surf in self.frames]
+
+class SequenceBee(Enemy):
+    """Moving bee used for sequence memory gameplay"""
+    def __init__(self, frames, pos, groups, index, player):
+        super().__init__(frames, pos, groups)
+        self.index = index
+        self.highlight = False
+        self.base_alpha = 255
+        self.alpha = self.base_alpha
+        self.scale_factor = 1.0
+        self.player = player
+        self.speed = randint(100, 200)
+        self.amplitude = randint(300, 400)
+        self.frequency = randint(200, 400)
+        self.movement_enabled = True  # Disabled during SHOW phase
+        self.highlight_start = 0
+        self.highlight_period = 600  # ms (300ms down, 300ms up) similar to death
+
+    def set_highlight(self, active: bool):
+        self.highlight = active
+        # Use fade animation like death but looping; no scale or glow
+        self.scale_factor = 1.0
+        if active:
+            self.highlight_start = pygame.time.get_ticks()
+
+    def move(self, dt):
+        # Pause movement during SHOW phase (controlled from main via flag)
+        if not getattr(self, 'movement_enabled', True):
+            return
+        
+        # If bee has a target_position (during SPAWNING), move to it instead of chasing
+        if hasattr(self, 'target_position') and self.target_position:
+            dx = self.target_position[0] - self.rect.centerx
+            dy = self.target_position[1] - self.rect.centery
+            distance = (dx**2 + dy**2)**0.5
+            
+            if distance > 5:  # Not yet at target
+                move_speed = self.speed * 1.5  # Move faster during spawn-in
+                self.rect.x += (dx / distance) * move_speed * dt
+                self.rect.y += (dy / distance) * move_speed * dt
+            else:
+                # Reached target, clear it to enable chase behavior
+                self.target_position = None
+            return
+        
+        # Chase the player aggressively (normal INPUT phase behavior)
+        if self.player and hasattr(self.player, 'rect'):
+            # Calculate direction to player
+            dx = self.player.rect.centerx - self.rect.centerx
+            dy = self.player.rect.centery - self.rect.centery
+            distance = (dx**2 + dy**2)**0.5
+            
+            if distance > 0:
+                # Normalize and move toward player
+                self.rect.x += (dx / distance) * self.speed * dt
+                self.rect.y += (dy / distance) * self.speed * dt
+
+    def animate(self, dt):
+        # If dying, use base class fade-out logic
+        if getattr(self, 'dying', False):
+            return super().animate(dt)
+
+        # Animate frames and apply death-like fade loop when highlighted
+        self.frame_index += self.animation_speed * dt
+        base_image = self.frames[int(self.frame_index) % len(self.frames)]
+        img = base_image.copy()
+
+        if self.highlight:
+            now = pygame.time.get_ticks()
+            elapsed = (now - self.highlight_start) % max(1, self.highlight_period)
+            half = self.highlight_period / 2
+            if elapsed <= half:
+                # Fade out 255 -> 0 over first half
+                alpha = int(255 * (1 - (elapsed / half)))
+            else:
+                # Fade in 0 -> 255 over second half
+                alpha = int(255 * ((elapsed - half) / half))
+            alpha = max(0, min(255, alpha))
+            img.set_alpha(alpha)
+        else:
+            img.set_alpha(255)
+
+        self.image = img
+
+    def constraint(self):
+        # Do not wrap or auto-kill; allow bees to roam the map and keep chasing
+        # Intentionally left empty to avoid unintended respawn/wrap behavior when player moves far
+        return
 
 class Player(AnimatedSprite):
     def __init__(self, pos, groups, collision_sprites, frames, create_bullet):

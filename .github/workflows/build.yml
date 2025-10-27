@@ -1,0 +1,131 @@
+name: Build releases
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  web:
+    name: Build Web (HTML5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pygbag
+      - name: Build web with pygbag
+        run: |
+          python -m pygbag --build start_screen.py
+      - name: Archive web build
+        run: |
+          cd build/web
+          zip -r ../../dps_saket-web.zip .
+      - name: Upload artifact (web)
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-html5
+          path: dps_saket-web.zip
+
+  macos:
+    name: Build macOS app
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller pygame_gui
+      - name: Build macOS app
+        run: |
+          python -m PyInstaller \
+            --noconfirm --windowed --onedir \
+            --name dps_saket-macos start_screen.py \
+            --add-data "stage 1:stage 1" \
+            --add-data "stage 2:stage 2" \
+            --add-data "fonts:fonts" \
+            --add-data "hearts:hearts"
+      - name: Zip macOS app
+        run: |
+          cd dist
+          zip -r ../dps_saket-macos.zip dps_saket-macos.app
+      - name: Upload artifact (macOS)
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-app
+          path: dps_saket-macos.zip
+
+  windows:
+    name: Build Windows app
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller pygame_gui
+      - name: Build Windows exe
+        shell: bash
+        run: |
+          python -m PyInstaller \
+            --noconfirm --windowed --onedir \
+            --name dps_saket-windows start_screen.py \
+            --add-data "stage 1;stage 1" \
+            --add-data "stage 2;stage 2" \
+            --add-data "fonts;fonts" \
+            --add-data "hearts;hearts"
+      - name: Zip Windows build
+        shell: bash
+        run: |
+          cd dist
+          zip -r ../dps_saket-windows.zip dps_saket-windows
+      - name: Upload artifact (Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-app
+          path: dps_saket-windows.zip
+
+  publish-itch:
+    name: Publish to itch.io (optional)
+    needs: [web, macos, windows]
+    runs-on: ubuntu-latest
+    if: ${{ secrets.BUTLER_CREDENTIALS != '' && github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-html5
+          path: ./artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: macos-app
+          path: ./artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-app
+          path: ./artifacts
+      - name: Install butler
+        run: |
+          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
+          unzip butler.zip -d butler
+          sudo mv butler/butler /usr/local/bin/butler
+          butler -V
+      - name: Push to itch (channels)
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          ITCH_TARGET: ${{ secrets.ITCH_TARGET }} # e.g. user/game
+        run: |
+          if [ -z "$ITCH_TARGET" ]; then echo "Set ITCH_TARGET secret (user/game) to enable"; exit 0; fi
+          butler push artifacts/dps_saket-web.zip "$ITCH_TARGET:html5"
+          butler push artifacts/dps_saket-macos.zip "$ITCH_TARGET:mac"
+          butler push artifacts/dps_saket-windows.zip "$ITCH_TARGET:win"
