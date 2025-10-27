@@ -54,8 +54,8 @@ A Python-based two-stage game built with pygame-ce, featuring custom pixel art, 
 ### Quick Start
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/<your-username>/<repo-name>.git
-   cd <repo-name>
+   git clone https://github.com/akshar16/isdps_vk_GameDev.git
+   cd isdps_vk_GameDev
    ```
 
 2. **Install dependencies:**
@@ -81,7 +81,7 @@ Tip: main.py just calls start_screen.main(); running either is fine.
 ## 📁 Project Structure
 
 ```
-dps_saket/
+isdps_vk_GameDev/
 ├── main.py                 # Game launcher (calls start_screen)
 ├── start_screen.py         # Main menu and stage selection
 ├── requirements.txt        # Python dependencies
