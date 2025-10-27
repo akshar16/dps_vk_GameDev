@@ -2,10 +2,10 @@
 
 Fast TL;DR to run, build, and ship. Full details follow below.
 
-Quick start
+ Quick start
 - Run locally: see "Installation & Setup" below, then python start_screen.py
 - Web/itch.io: build with pygbag and upload; see ITCH_UPLOAD.md
-- macOS app: use scripts/build_macos.sh (creates builds/dps_saket-macos.zip)
+- macOS app: use scripts/build_macos.sh (creates builds/isdps_vk_GameDev-macos.zip)
 - Controls: ↑↓ navigate, Enter/Space select, Esc back; stage-specific controls below
 
 A Python-based two-stage game built with pygame-ce, featuring custom pixel art, audio, and two distinct modes: a flashlight survival challenge (Stage 1) and a memory-sequencing shooter (Stage 2).

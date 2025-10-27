@@ -21,7 +21,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='dps_saket-macos',
+    name='isdps_vk_GameDev-macos',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -40,11 +40,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='dps_saket-macos',
+    name='dps_vk_GameDev-macos',
 )
 app = BUNDLE(
     coll,
-    name='dps_saket-macos.app',
+    name='dps_vk_GameDev-macos.app',
     icon=None,
     bundle_identifier=None,
 )

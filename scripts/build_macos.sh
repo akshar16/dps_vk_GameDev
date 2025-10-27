@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 cd "$ROOT_DIR"
 
-APP_NAME="dps_saket-macos"
+APP_NAME="isdps_vk_GameDev-macos"
 
 # Clean previous build
 rm -rf build dist "$APP_NAME.spec" || true

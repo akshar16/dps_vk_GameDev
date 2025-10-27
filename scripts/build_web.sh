@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # Build a web (HTML5) version of the game using pygbag.
-# Output will be in dist/web and zipped to builds/dps_saket-web.zip.
+# Output will be in dist/web and zipped to builds/isdps_vk_GameDev-web.zip.
 
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 cd "$ROOT_DIR"
@@ -26,7 +26,7 @@ else
 fi
 
 # Zip the web folder for itch.io upload (as HTML5)
-ZIP_PATH="builds/dps_saket-web.zip"
+ZIP_PATH="builds/isdps_vk_GameDev-web.zip"
 cd "$WEB_OUT"
 zip -r "$ZIP_PATH" .
 
@@ -36,4 +36,4 @@ if [ ! -f "$ROOT_DIR/$ZIP_PATH" ]; then
   mv "$ZIP_PATH" "$ROOT_DIR/builds/" || true
 fi
 
-echo "Web build complete: $ROOT_DIR/builds/dps_saket-web.zip"
+echo "Web build complete: $ROOT_DIR/builds/isdps_vk_GameDev-web.zip"

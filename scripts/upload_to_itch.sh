@@ -10,20 +10,20 @@ echo "==================================="
 echo ""
 
 # Check if builds exist
-if [ ! -f "builds/dps_saket-macos.zip" ]; then
-  echo "❌ Error: builds/dps_saket-macos.zip not found"
+if [ ! -f "builds/isdps_vk_GameDev-macos.zip" ]; then
+  echo "❌ Error: builds/isdps_vk_GameDev-macos.zip not found"
   echo "Run: bash scripts/build_macos.sh"
   exit 1
 fi
 
-if [ ! -f "builds/dps_saket-web.zip" ]; then
-  echo "❌ Error: builds/dps_saket-web.zip not found"
+if [ ! -f "builds/isdps_vk_GameDev-web.zip" ]; then
+  echo "❌ Error: builds/isdps_vk_GameDev-web.zip not found"
   echo "Run: bash scripts/build_web.sh"
   exit 1
 fi
 
-echo "✅ Found macOS build: $(du -h builds/dps_saket-macos.zip | cut -f1)"
-echo "✅ Found web build: $(du -h builds/dps_saket-web.zip | cut -f1)"
+echo "✅ Found macOS build: $(du -h builds/isdps_vk_GameDev-macos.zip | cut -f1)"
+echo "✅ Found web build: $(du -h builds/isdps_vk_GameDev-web.zip | cut -f1)"
 echo ""
 
 # Get itch.io target
@@ -54,11 +54,11 @@ fi
 
 echo ""
 echo "🚀 Uploading web build..."
-butler push builds/dps_saket-web.zip "$ITCH_TARGET:html5"
+butler push builds/isdps_vk_GameDev-web.zip "$ITCH_TARGET:html5"
 
 echo ""
 echo "🚀 Uploading macOS build..."
-butler push builds/dps_saket-macos.zip "$ITCH_TARGET:mac"
+butler push builds/isdps_vk_GameDev-macos.zip "$ITCH_TARGET:mac"
 
 echo ""
 echo "✅ Upload complete!"
