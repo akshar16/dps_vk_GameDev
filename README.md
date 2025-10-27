@@ -1,56 +1,61 @@
-# DPS Saket Game - Two-Stage Adventure
+# DPS Saket Game – Survivor: Memory & Invisibility
 
-A Python-based two-stage adventure game featuring distinct gameplay experiences inspired by classic indie games. Built with pygame-ce and featuring custom pixel art, immersive audio, and engaging mechanics.
+Fast TL;DR to run, build, and ship. Full details follow below.
+
+Quick start
+- Run locally: see "Installation & Setup" below, then python start_screen.py
+- Web/itch.io: build with pygbag and upload; see ITCH_UPLOAD.md
+- macOS app: use scripts/build_macos.sh (creates builds/dps_saket-macos.zip)
+- Controls: ↑↓ navigate, Enter/Space select, Esc back; stage-specific controls below
+
+A Python-based two-stage game built with pygame-ce, featuring custom pixel art, audio, and two distinct modes: a flashlight survival challenge (Stage 1) and a memory-sequencing shooter (Stage 2).
 
 ## 🎮 Game Overview
 
-### Stage 1: Undertale-Style Adventure
-- **Story Mode**: Interactive NPCs with meaningful dialogue and choice-based gameplay
-- **Survival Mode**: Classic survival mechanics with endless enemy waves  
-- **Turn-based Combat**: ATTACK/TALK/HEAL/SPARE options with bullet hell defense phases
-- **Soul Mechanics**: Blue/orange bullet patterns requiring strategic movement
-- **Multiple Endings**: Victory, story completion, and philosophical reflection paths
+### Stage 1: Nightfall Survival
+- Flashlight gameplay: enemies freeze inside the light, hunt in the dark
+- Explore, earn coins, visit shop; survival-only flow (reach 400 coins to win)
+- Darkness overlay with realistic cone, minimap pings, and “ghost” memory trails
+- Freeze effect on damage and responsive enemy AI
 
-### Stage 2: Touhou-Style Bullet Hell
-- **Intense Bullet Hell Action**: Fast-paced dodging with precise hitbox mechanics
-- **Dynamic Enemy Spawning**: Bees and worms with unique attack patterns
-- **Score-Based Progression**: High score tracking with performance metrics
-- **Lives System**: Heart-based health with invulnerability frames
-- **Visual Effects**: Freeze effects, damage indicators, and particle systems
+### Stage 2: Memory Sequence
+- Simon-says style sequence with moving bees: memorize the order during SHOW phase
+- Shoot bees in the exact order during INPUT; wrong shot restarts the level
+- Memory Flash (E) temporarily reveals everything; drains a meter that refills on level clears
+- Shift shows a small precise hitbox; worms persist as extra hazards
 
 ## 🎯 Controls
 
 ### Universal Controls
-- **Arrow Keys/WASD**: Move player character
-- **ESC**: Return to main menu (from game over screens)
-- **Q**: Quit game (from game over screens)
+- Arrow Keys/WASD: Move
+- ESC: Back to menu (from game over screens)
+- Q: Quit (from game over screens)
 
-### Stage 1 Specific
-- **Mouse**: Aim and shoot weapons
-- **Space**: Interact with NPCs and confirm menu selections
-- **Arrow Keys**: Navigate battle menus and move soul during bullet hell phases
-- **Enter/Space**: Confirm battle selections (ATTACK/TALK/HEAL/SPARE)
+### Stage 1 (Nightfall Survival)
+- Mouse: Aim flashlight and shoot
+- Left Click: Fire
+- Enter: Start survival mode
 
-### Stage 2 Specific  
-- **Left Shift**: Display precise hitbox (small white circle)
-- **Mouse**: Aim and shoot at enemies
-- **Movement**: Precise dodging for bullet patterns
+### Stage 2 (Memory Sequence)
+- Mouse: Aim and shoot targets
+- Left Click: Shoot
+- E: Toggle Memory Flash (drains meter while active)
+- Left Shift: Show precise hitbox
 
 ## 📋 System Requirements
 
-- **Python**: 3.7+ (tested with 3.13)
-- **pygame-ce**: 2.5.0 or higher
-- **pytmx**: 3.21.7 or higher (for tilemap support)
-- **Platform**: Windows, macOS, Linux compatible
-- **Audio**: Sound card for music and effects
+- Python: 3.10+ recommended (tested with 3.13)
+- Dependencies: pygame-ce >= 2.5.0, pytmx >= 3.21.7, pygame_gui >= 0.6.9
+- Platforms: Windows, macOS, Linux
+- Audio device recommended for music/effects
 
 ## 🚀 Installation & Setup
 
 ### Quick Start
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/akshar16/dps_saket.git
-   cd dps_saket
+   git clone https://github.com/<your-username>/<repo-name>.git
+   cd <repo-name>
    ```
 
 2. **Install dependencies:**
@@ -71,82 +76,58 @@ A Python-based two-stage adventure game featuring distinct gameplay experiences 
    python start_screen.py
    ```
 
-### Alternative Execution (Windows)
-- Double-click `DPS_rohini.exe` for direct execution (Windows only)
+Tip: main.py just calls start_screen.main(); running either is fine.
 
 ## 📁 Project Structure
 
 ```
 dps_saket/
-├── main.py                 # Game launcher with error handling
+├── main.py                 # Game launcher (calls start_screen)
 ├── start_screen.py         # Main menu and stage selection
 ├── requirements.txt        # Python dependencies
-├── DPS_rohini.exe         # Windows executable
-├── TROUBLESHOOTING.md     # Common issues and solutions
-├── fonts/                 # Custom game fonts
-│   └── 04B_30__.TTF      # Pixel-style font
-├── hearts/               # UI elements
-│   ├── full_heart.png    # Life indicator (full)
-│   └── empety_heart.png  # Life indicator (empty)
-├── stage 1/              # Undertale-style gameplay
-│   ├── code/            # Game logic and mechanics
-│   │   ├── main.py      # Stage 1 entry point
-│   │   ├── player.py    # Player character controller
-│   │   ├── sprites.py   # Game object classes
-│   │   ├── settings.py  # Configuration constants
-│   │   └── ...         # Additional game modules
-│   ├── audio/          # Sound effects and music
-│   ├── data/           # Tilemap and level data
-│   └── images/         # Sprites and graphics
-└── stage 2/             # Touhou-style bullet hell
-    ├── code/           # Game logic and mechanics
-    │   ├── main.py     # Stage 2 entry point
-    │   ├── sprites.py  # Enemy and bullet classes
-    │   ├── support.py  # Asset loading utilities
-    │   ├── groups.py   # Sprite group management
-    │   └── ...        # Additional game modules
-    ├── audio/         # Sound effects and music
-    ├── data/          # Tilemap and level data
-    └── images/        # Sprites and graphics
+├── ITCH_UPLOAD.md          # How to build/upload web & macOS
+├── scripts/                # Build and upload helpers
+│   ├── build_macos.sh      # PyInstaller macOS app
+│   └── build_web.sh        # pygbag HTML5 build
+├── builds/                 # Output zips (ignored in CI releases)
+├── TROUBLESHOOTING.md      # Common issues and solutions
+├── fonts/                  # Custom game fonts
+├── hearts/                 # UI elements
+├── stage 1/                # Stage 1 content and code
+└── stage 2/                # Stage 2 content and code
 ```
+
+## 🚢 Build and publish (itch.io)
+
+- Web (HTML5): build with pygbag and upload the zip as a “played in browser” file. Set index.html as primary, viewport 1280×720.
+- macOS: build the .app zip with the script and upload as a downloadable.
+
+See ITCH_UPLOAD.md for the exact steps, commands, and troubleshooting.
 
 ## 🎯 Gameplay Guide
 
-### Stage 1: Undertale Adventure
-**Getting Started:**
-- Choose between Story Mode (narrative-focused) or Survival Mode (action-focused)
-- Interact with NPCs using Space to learn about game modes
-- Story Guide NPC (behind player) introduces philosophical gameplay
-- Combat Instructor NPC (left of player) teaches survival mechanics
+### Stage 1: Nightfall Survival
+Getting started:
+- Press Enter to start Survival Only mode
+- Use your flashlight cone to freeze enemies, then shoot them safely
+- Collect coins; reach 400 coins to win
 
-**Combat System:**
-- **ATTACK**: Deal damage to enemies with weapons
-- **TALK**: Communicate with enemies, potentially leading to peaceful resolution
-- **HEAL**: Restore health when needed
-- **SPARE**: Show mercy to enemies after successful dialogue
-- **Soul Movement**: During enemy attacks, control a small soul to dodge bullet patterns
-- **Blue Bullets**: Only hurt when you're moving - stay still to avoid
-- **Orange Bullets**: Only hurt when you're stationary - keep moving to avoid
+Tips:
+- Sweep the light in arcs to control space
+- Back up when enemies approach from the dark
+- Use the minimap and fading “ghost” markers to remember enemy locations
 
-**Victory Conditions:**
-- **Story Mode**: Complete meaningful encounters and choose compassionate paths
-- **Survival Mode**: Reach 400 points by defeating enemies
-- **Multiple Endings**: Victory, philosophical completion, or determination failure
+### Stage 2: Memory Sequence
+Core loop:
+- SPAWNING: Bees enter the arena and move into formation
+- SHOW: Bees highlight one-by-one in a random order — memorize it
+- INPUT: Shoot the bees in that exact order
+- Next level: Order length or count increases; worms respawn as hazards
 
-### Stage 2: Bullet Hell Action
-**Core Mechanics:**
-- **Precision Movement**: Use WASD/Arrow keys for exact positioning
-- **Hitbox Awareness**: Hold Shift to see your tiny collision area (white circle)
-- **Enemy Patterns**: Bees fly in straight lines shooting bullet spreads
-- **Worms**: Ground-based enemies with different attack patterns
-- **Scoring**: Earn points by destroying enemies, bonus points during invulnerability
-
-**Survival Tips:**
-- **Focus on dodging** rather than constant shooting
-- **Use invulnerability frames** after taking damage to destroy enemies safely
-- **Watch for freeze effects** - brief pause after taking damage
-- **Track your lives** with the heart display in the top-right corner
-- **Aim for high scores** - challenge yourself and others!
+Tips:
+- Use E to briefly reveal everything, but manage the meter
+- Shift to see your precise hitbox for tight dodges
+- A wrong shot restarts the current level — take your time
 
 ## 🔧 Technical Features
 
