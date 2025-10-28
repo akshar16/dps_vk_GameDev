@@ -1,4 +1,4 @@
-# DPS Saket Game – Survivor: Memory & Invisibility
+# DPS Vasant Kunj Game – Survivor: Memory & Invisibility
 
 Fast TL;DR to run, build, and ship. Full details follow below.
 
