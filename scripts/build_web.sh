@@ -12,8 +12,8 @@ rm -rf build dist || true
 # Build with pygbag (packs start_screen.py and assets)
 pygbag --build start_screen.py
 
-# Create builds folder
-mkdir -p builds
+# Create builds folder at repo root (absolute path)
+mkdir -p "$ROOT_DIR/builds"
 
 # Find the web output directory created by pygbag
 if [ -d "build/web" ]; then
@@ -26,14 +26,9 @@ else
 fi
 
 # Zip the web folder for itch.io upload (as HTML5)
-ZIP_PATH="builds/isdps_vk_GameDev-web.zip"
+# Important: zip the CONTENTS of the web folder so index.html is at the ZIP root
+ZIP_PATH="$ROOT_DIR/builds/isdps_vk_GameDev-web.zip"
 cd "$WEB_OUT"
 zip -r "$ZIP_PATH" .
-
-# Move zip to repo root builds folder if not already absolute
-if [ ! -f "$ROOT_DIR/$ZIP_PATH" ]; then
-  mkdir -p "$ROOT_DIR/builds"
-  mv "$ZIP_PATH" "$ROOT_DIR/builds/" || true
-fi
 
 echo "Web build complete: $ROOT_DIR/builds/isdps_vk_GameDev-web.zip"

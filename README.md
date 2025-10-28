@@ -78,6 +78,29 @@ A Python-based two-stage game built with pygame-ce, featuring custom pixel art, 
 
 Tip: main.py just calls start_screen.main(); running either is fine.
 
+## 📥 Download & Install Instructions (for itch.io Players)
+
+### macOS Downloadable Build
+1. Download the `isdps_vk_GameDev-macos.zip` file from the itch.io page's Downloads section.
+2. Unzip the file to extract the `isdps_vk_GameDev-macos.app` application.
+3. (Optional) Move the app to your Applications folder for easy access.
+4. Double-click the app to launch the game.
+   - **Note:** On first run, macOS may show a security warning ("App is damaged or can't be opened"). Right-click the app and select "Open" to bypass this. This is normal for unsigned indie apps.
+5. Enjoy the game! No additional installation required.
+
+### Web (HTML5) Build
+1. On the itch.io page, click the "Run game" button.
+2. The game will load directly in your browser (Chrome, Firefox, Safari, or Edge recommended).
+3. Allow audio playback if prompted by your browser.
+4. Use keyboard and mouse controls as described in the game.
+   - **Note:** Audio may be delayed until your first interaction due to browser policies. This is expected.
+
+**System Requirements:**
+- **macOS Download:** macOS 10.12 or later. No Python installation needed.
+- **Web Build:** Modern web browser with WebAssembly support. Internet connection required for initial load.
+
+If you encounter issues, check the Troubleshooting section below.
+
 ## 📁 Project Structure
 
 ```
