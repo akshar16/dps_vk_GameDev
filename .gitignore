@@ -49,3 +49,9 @@ Thumbs.db
 *.log
 saves/
 screenshots/
+
+# Build artifacts (generate locally with build scripts)
+builds/
+build/
+dist/
+
